@@ -155,6 +155,8 @@ function getPercentage(value: number) {
 const current = ref<number>(-1)
 const currentPercentage = ref<number>(-1)
 let currentPercentageTimer: number
+const activeThumbType = ref<string | undefined>(undefined)
+
 function setCurrentPercentage(val: number) {
   currentPercentage.value = val
   clearTimeout(currentPercentageTimer)
@@ -257,7 +259,11 @@ provide(RangeTrackRefKey, trackRef)
 <template>
   <div
     class="dark:m-range-theme-dark m-range-theme m-range"
-    :class="[`m-range-${vertical ? 'v-' : ''}${size}`, `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`]"
+    :class="[
+      `m-range-${vertical ? 'v-' : ''}${size}`, 
+      `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`,
+      activeThumbType ? `m-range-${activeThumbType}` : ''
+    ]"
   >
     <div
       ref="trackRef"
@@ -336,7 +342,10 @@ provide(RangeTrackRefKey, trackRef)
         @move-done="current = -1"
         @update="onUpdate"
         @delete="onDelete"
-        @pointerdown="current = Number(idx)"
+        @pointerdown="
+          current = Number(idx);
+          if (model[index].type) activeThumbType = model[index].type;
+        "
         @change="emits('change', props.modelValue, Array.isArray(props.modelValue) ? props.modelValue[index] : props.modelValue, index)"
       >
         <template #top="{ data }">

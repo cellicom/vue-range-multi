@@ -139,6 +139,7 @@ async function onPointerDown(e: PointerEvent) {
       cursor,
       `m-range-${vertical ? 'v-' : ''}thumb-${thumbType}`,
       `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`,
+      data.type ? `m-range-${data.type}` : ''
     ]"
     :style="vertical ? { top: `${position}%` } : { left: `${position}%` }"
     @pointerdown="onPointerDown"

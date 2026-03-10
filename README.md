@@ -22,6 +22,8 @@ A Vue range(slider) component that supports one or more thumb
 - 🌓 Supports dark mode.
 - 📍 Render content above or below the thumb(render function / slot).
 - 🏷 Support display marks under the track.
+- 📦 **Standalone version available** in a single `.vue` file without external CSS dependencies.
+- 🎨 **Dynamic Thumb Types** using the `type` property to automatically assign CSS classes (`m-range-[type]`) to specific thumbs.
 
 ## Demo
 
@@ -96,6 +98,21 @@ interface VueRangeMultiResolverOptions {
 > [!NOTE]
 > After v0.4, `marks`'s key means value rather than percentage
 
+### Using the Standalone Component
+If you prefer not to include external CSS styles or use Unocss, you can import the standalone version directly into your project. It includes all styles and types within a single `.vue` file:
+```vue
+<script setup lang="ts">
+import StandaloneRange from 'vue-range-multi/standalone/StandaloneRange.vue'
+import { ref } from 'vue'
+
+const model = ref([10, 50])
+</script>
+
+<template>
+  <StandaloneRange v-model="model" />
+</template>
+```
+
 generic="T = any, U = number | RangeData\<T>"
 
 | Name                 | Type                               | Description                                                                                                                                                    | Default            |
@@ -145,6 +162,7 @@ export interface RangeData<T, U = RangeValueType<T>> {
   data?: T
   disabled?: boolean
   unremovable?: boolean
+  type?: string // Custom type for styling (generates m-range-[type] class)
   limits?: [number, number] // Min and max limits for this specific thumb
   renderTop?: RangeRenderFn<T, U>
   renderBottom?: RangeRenderFn<T, U>
